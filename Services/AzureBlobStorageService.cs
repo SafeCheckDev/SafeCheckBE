@@ -30,13 +30,15 @@ namespace Safecheck.Services
             _log = l;
             _config = c;
 
-            _log.info("Looking for Setting ["+SafeCheckConstants.CONFIG_BLOB_ACCOUNT_CONNECTION_STRING+"]");
+            _log.LogInformation("Looking for Setting ["+SafeCheckConstants.CONFIG_BLOB_ACCOUNT_CONNECTION_STRING+"]");
+
+            _log.LogInformation("Got string of ["+_config[SafeCheckConstants.CONFIG_BLOB_ACCOUNT_CONNECTION_STRING]+"]");
 
             // Get storage account
             var storageAccount = CloudStorageAccount.Parse(_config[SafeCheckConstants.CONFIG_BLOB_ACCOUNT_CONNECTION_STRING]);
 
             if (storageAccount == null)
-                _log.error("Unable to get ConnectionString setting");
+                _log.LogError("Unable to get ConnectionString setting");
 
             // Create client
             _blobClient = storageAccount.CreateCloudBlobClient();

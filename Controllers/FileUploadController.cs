@@ -12,7 +12,7 @@ using Safecheck.Services;
 namespace Safecheck.Controllers
 {
     
-    [Route("api/fileUupload")]
+    [Route("api/fileUpload")]
     public class FileUploadController : Controller
     {
         private IAzureBlobStorageService _azureBlobStorageService;
@@ -26,16 +26,25 @@ namespace Safecheck.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> Index(IList<IFormFile> qqfile, string qquuid, string qqfilename, string qqtotalfilesize, string resourceId, string uploadType)
+        //Rename of parameters.
+        public async Task<IActionResult> upload(IList<IFormFile> file, string fileId, string fileName, string totalfilesize, string sourceId, string uploadType)
         {
+            _log.LogInformation("Starting File Upload procedure");
             //We only take one file... lets not muddy the waters yet).
             var file = qqfile.FirstOrDefault();
             if (file == null)
+            {
+                _log.LogError("File not found...it is null.");
                 return NotFound();
+            }
+
+            _log.LogInformation("Got a file ok.");
+
             try
             {
                 //unique name for the entry.
-                string name = string.Concat(resourceId, "-", DateTime.UtcNow.ToString("yyyy-MM-dd"), "-", qquuid);
+                string name = string.Concat(sourceId, "-", DateTime.UtcNow.ToString("yyyy-MM-dd"), "-", fileId);
+                _log.LogInformation("Got a name of ["+name+"]");
                 await _azureBlobStorageService.UploadBlobAsync(file, "incomingfiles", name);
                 
                 return new ObjectResult(new { success = true, newUuid = name });

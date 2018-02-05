@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Safecheck.Controllers
 {
-    [Route("forms/[controller]")]
+    [Route("api/forms")]
     public class SafecheckController : Controller
     {
         //private readonly TodoContext _context;
@@ -30,7 +30,8 @@ namespace Safecheck.Controllers
             return forms.ToList();
         }
 
-        [HttpGet("{id}", Name = "GetForm")]
+        [HttpGet]
+        [Route("{id}")]
         public IActionResult GetById(long id)
         {
             var form = buildForm();
