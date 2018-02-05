@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Safecheck.Services;
 
 namespace safecheck
 {
@@ -15,6 +16,7 @@ namespace safecheck
     {
         public Startup(IConfiguration configuration)
         {
+            //This loads it from azure app settings (overriding the appsettings.json)
             Configuration = configuration;
         }
 
@@ -24,6 +26,13 @@ namespace safecheck
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            //Add in the azure blob service handler.
+            services.AddTransient<IAzureBlobStorageService, AzureBlobStorageService>();
+
+
+            //inject it into the file upload
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
