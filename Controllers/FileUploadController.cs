@@ -27,11 +27,11 @@ namespace Safecheck.Controllers
         [HttpPost]
         [Route("")]
         //Rename of parameters.
-        public async Task<IActionResult> upload(IList<IFormFile> file, string fileId, string fileName, string totalfilesize, string sourceId, string uploadType)
+        public async Task<IActionResult> upload(IList<IFormFile> fileData, string fileId, string fileName, string totalfilesize, string sourceId, string uploadType)
         {
             _log.LogInformation("Starting File Upload procedure");
             //We only take one file... lets not muddy the waters yet).
-            var file = qqfile.FirstOrDefault();
+            var file = fileData.FirstOrDefault();
             if (file == null)
             {
                 _log.LogError("File not found...it is null.");
