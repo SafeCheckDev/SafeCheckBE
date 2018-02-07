@@ -8,8 +8,7 @@ namespace Safecheck.Controllers
     [Route("api/forms")]
     public class SafecheckController : Controller
     {
-        //private readonly TodoContext _context;
-
+        
         private List<FormList> forms;
 
 
